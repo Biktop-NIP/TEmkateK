@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Жанры{% endblock %}
+
+{% block links %}
+
+<link rel="stylesheet" href="{% static 'css/genres.css' %}" />
+<link rel="stylesheet" href="{% static 'css/checkbox.css' %}" />
+
+{% endblock %}
+
+{% block content %}
+<div class="genres">
+    
+    <h1 class="title">Жанры</h1>
+    <div class="genres-list">
+        {% for genre in genres %}
+        <div class="genre">
+            <input type="checkbox" class="checkbox" id="id_for_genre{{genre.pk}}" name="{{genre.name}}" value="{{genre.pk}}">
+            <label for="id_for_genre{{genre.pk}}">{{genre.name}}</label>
+        </div>
+        {% endfor %}
+    
+    </div>
+    <button class="button" id="genre-search">искать</button>
+</div>
+<script>
+
+button = document.querySelector('#genre-search');
+
+button.addEventListener('click', () => {
+    genres = new Array();
+
+    for (genre of document.querySelectorAll('.checkbox')){
+        if (genre.checked){
+            genres.push(genre);
+        }
+    }
+    genre_string = '[';
+    genre_string += genres.map(el => el.value).join(',');
+    genre_string += ']';
+    location.href = `{% url "videos" %}?genres=${genre_string}`
+})
+
+</script>
+
+{% endblock %}
+    

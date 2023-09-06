@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Вход{% endblock %}
+
+{% block links %}
+
+<style>
+
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.info__text {
+    font-size: 24px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="info">
+    <p class="info__text title">{{text}}</p>
+</div>
+
+{% endblock %}

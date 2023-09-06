@@ -1,0 +1,39 @@
+:root {
+    --pagination-background-color: #5E5C74;
+    --pagination-text-color: #ffffff; 
+}
+
+.pagination {
+    display: inline-flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.pagination a {
+    font-size: 24px;
+    padding: 16px;
+    border-radius: 8px;
+
+    border: 2px solid var(--pagination-background-color);
+    color: var(--pagination-text-color);
+    background-color: var(--pagination-background-color);
+    transition: all 0.2s;
+}
+
+.pagination a.nav-select {
+    color: var(--pagination-background-color);
+    background-color: var(--pagination-text-color);
+    transition: all 0.2s;
+}
+
+@media (max-width: 480px) {
+    .pagination a {
+        font-size: 20px;
+        padding: 10px;
+    }
+}

@@ -1,0 +1,9 @@
+<nav class="pagination">
+    {% for page_number in page_obj.paginator.page_range %}
+        {% if page_number == page_obj.number %}
+            <a class="nav-select">{{ page_number }}</a>
+        {% elif page_number >= page_obj.number|add:-3 and page_number <= page_obj.number|add:3 %}
+            <a href="?page={{ page_number }}{{params}}">{{ page_number }}</a>
+        {% endif %}
+    {% endfor %}
+</nav>

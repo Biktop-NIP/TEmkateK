@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Теги{% endblock %}
+
+{% block links %}
+
+<link rel="stylesheet" href="{% static 'css/tegs.css' %}" />
+
+{% endblock %}
+
+{% block content %}
+<div class="tegs">
+    <div class="tegs-types">
+        <h1 class="title">Теги</h1>
+        {% for type_name, tegs in teg_types %}
+        <div class="teg-type">
+            <h1 class="title">{{type_name}}</h1>
+            <div class="tegs-list">
+                {% for teg in tegs %}
+                <a href="{% url 'videos' %}?tag={{teg.pk}}">{{teg.name}}</a>
+                {% endfor %}
+            </div>
+        </div>
+            <hr> 
+        {% endfor %}
+
+    </div>
+</div>
+        
+     
+        
+    
+
+{% endblock %}
+    

@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load project_tegs %}
+
+{% block title %}Вход{% endblock %}
+
+{% block links %}
+
+<link rel="stylesheet" href="{% static 'css/form.css'%}" />
+
+{% endblock %}
+
+{% block content %}
+
+<div class="form-box">
+    <form class="form" action="{% url 'registration' %}" method="post">
+        <h1 class="title">Регистрация</h1>
+        {% csrf_token %}
+        {{form.username}}
+        {{form.username.errors}}
+        {{form.password1}}
+        {{form.password1.errors}}
+        {{form.password2}}
+        {{form.password2.errors}}
+        {% for field, errors in form.errors.items %}
+            {% if field == '__all__' %}
+                {{errors}}
+            {% endif %}
+        {% endfor %}
+        <button type="submit" class="button">Регистрация</button>
+        <a href="{% url 'login' %}">Вход</a>
+    </form>
+</div>
+
+{% endblock %}

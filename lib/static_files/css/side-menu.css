@@ -1,0 +1,155 @@
+:root {
+    --side-menu-content-background-color: #3e3D56;
+    --navigate-element-background-color: rgba(0, 0, 0, 0.1);
+    --important-navigate-element-background-color: #FA7079;
+    --navigate-a-color: #A2A1B7;
+    --navigate-a-hover: #ffffff;
+}
+
+
+
+
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.1s;
+    z-index: 5;
+}
+
+.side-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.1s;
+}
+
+.side-menu.open .side-menu-content {
+    width: 320px;
+    transition: all 0.1s
+}
+
+.side-menu-content {
+    background-color: var(--side-menu-content-background-color);
+    padding: 24px;
+
+    height: 100%;
+    width: 0;
+    transition: all 0.1s
+}
+
+@media (max-width: 480px){
+    .side-menu.open {
+        width: 100%;
+    }
+    .side-menu.open .side-menu-content {
+        width: calc(100% - 64px);
+    }
+}
+
+
+
+
+
+.side-menu__navigate ul {
+    list-style-type: none;
+}
+
+.side-menu__navigate ul li {
+    border-radius: 5px;
+    margin-top: 8px;
+}
+
+.side-menu__navigate ul li a {
+    display: block;
+    background: var(--navigate-element-background-color);
+    padding: 15px 40px 15px 20px;
+    font-size: 1rem;
+    color: var(--navigate-a-color);
+}
+.side-menu__navigate ul li a.important {
+    background-color: var(--important-navigate-element-background-color);
+    color: #ffffff;
+}
+
+@media (min-width: 1025px) {
+    .side-menu__navigate ul li a:hover {
+        color: var(--navigate-a-hover) ;
+    }
+    
+}
+
+
+
+
+
+.close-icon {
+    height: 30px;
+    width: 4px;
+    margin-left: 12px;
+    background-color: #A2A0B8;
+    transform: rotate(45deg);
+    border-radius: 5px;
+}
+  
+.close-icon div {
+    height: 30px;
+    width: 4px;
+    background-color: #A2A0B8;
+    transform: rotate(90deg);
+    border-radius: 5px;
+}
+
+
+@media (min-width: 1025px) {
+    .close-icon:hover {
+        opacity: 0.6;
+    }
+    
+}
+
+
+.open-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 26px;
+}
+
+.open-icon div {
+    width: 30px;
+    height: 4px;
+    background-color: #00A1EB;
+    border-radius: 5px;
+}
+
+@media (min-width: 1025px) {
+    .open-icon:hover {
+        opacity: 0.6;
+    }
+    
+}
+
+
+.user-info {
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
+
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.user-name {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.user-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 100%;
+}

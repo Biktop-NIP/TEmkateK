@@ -1,0 +1,87 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load project_tegs %}
+
+{% block title %}TEmkateK{% endblock %}
+
+{% block links %}
+
+<link rel="stylesheet" href="{% static 'css/video.css' %}" />
+<script type="text/javascript" src="{% static 'js/like.js' %}"></script>
+
+{% endblock %}
+{% block scripts %}
+
+<script type="text/javascript" src="{% static 'js/comment_add.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="video_info">
+
+    <div class="video">     
+        <div class="video__rigth">
+            <img class="video__img" src="{% media video.image %}">
+
+            {% eval video.likes '+' video.dis_likes as count_score %}
+            {% if count_score != 0 %}
+                {% eval video.likes '* 100 //' count_score as result %}
+            {% endif %}
+            <p style="color: {% if result >= 50 %}#00CF00;{% else %}red;{% endif %}" class="video__result">
+                {% if count_score != 0 %}{{result}}%{% else %}0{% endif %}</p>
+            <div class="video-score">
+                <img src="{% static 'images/like.png'%}" onclick="like('{% url 'like_video' video.pk %}')">
+                <progress value={% if count_score != 0 %}"{{result}}"{% else %}"0"  class="zero"{% endif %} max="100"></progress>
+                <img src="{% static 'images/disLike.png'%}" onclick="like('{% url 'dislike_video' video.pk %}')">
+            </div>
+        </div>
+        <div class="video__left">
+            <p class="video-title">{{video.name}}</p>
+            <p class="video__description">{{video.description}}</p>    
+            <hr>
+            <div class="video__genre-list">
+                {% for genre in video.genres.all %}
+                    <a href="{% url 'videos' %}?genres=[{{genre.pk}}]" class="video__a">{{genre.name}}</a> |
+                {% endfor %}
+
+            </div> 
+            <hr>
+        </div>
+    </div>
+    
+<iframe class="video-player"
+src="https://www.youtube.com/embed/{{video.video_url}}"
+title="YouTube video player" frameborder="0" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+allowfullscreen></iframe>   
+{% if user.is_authenticated %}
+<div class="new-comment">
+    {{form.text}}
+    <button class="button" onclick="comment('/video/{{video.pk}}/comment')">отправить</button>
+</div>
+{% endif %}
+<h1 class="title" style="font-size: 2rem; margin: 32px; text-align: left;">Коментарии</h1>
+<div class="comments">
+    {% for comment in comments %}
+    <div class="comment">
+        <div>
+            <p class="comment_user-name">{{comment.user.username}}</p>
+            <p class="comment__text">{{comment.text}}</p>
+            <div class="comment-score">
+                <img src="{% static 'images/like.png'%}" onclick="like('{% url 'like_comment' comment.pk %}')">
+                {% eval comment.likes '-' comment.dis_likes as comment_rating %}
+                <p style="color: {% if comment_rating >= 0 %}#00CF00{% else %}red{% endif %};">{{comment_rating}}</p>
+                <img src="{% static 'images/disLike.png'%}" onclick="like('{% url 'dislike_comment' comment.pk %}')">
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</div>
+
+
+{% endblock %}
+    

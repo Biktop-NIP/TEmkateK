@@ -1,0 +1,91 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load project_tegs %}
+
+{% block title %}TEmkateK{% endblock %}
+
+{% block links %}
+
+<link rel="stylesheet" href="{% static 'css/video_list.css' %}" />
+<link rel="stylesheet" href="{% static 'css/pagination.css' %}" />
+<link rel="stylesheet" href="{% static 'css/select.css' %}" />
+
+{% endblock %}
+{% block scripts %}
+
+<script type="text/javascript" src="{% static 'js/select_submit.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/like.js' %}"></script>
+
+{% endblock %}
+    
+
+{% block content %}
+
+<form class="search-form" method="get" action="{% url 'videos' %}">
+    {{form.genres}}
+    {{form.teg}}
+    <div class="form-item">
+        <input type="text" name="search_text" class="search-field input" 
+            placeholder="поиск" value="{% if form.search_text.value is not None %}{{form.search_text.value}}{% endif %}">
+        <button type="submit" class="button">искать</button>
+    </div>
+    <div class="form-item">
+        <label class="title">Cортировать по</label>
+        <div class="select">
+        <div class="select__dropdown">
+            <button class="select__dropdown__button">Дате</button>
+            <ul class="select__dropdown__list">
+                <li class="select__dropdown__list-item" data-value="date">Дате</li>
+                <li class="select__dropdown__list-item" data-value="views">Просмотрам</li>
+                <li class="select__dropdown__list-item" data-value="rating">Рейтингу</li>
+            </ul>
+            <input type="hidden" name="sort_type" class="select__input">
+        </div>
+        </div>
+    </div>
+
+</form>
+{% if videos %}
+<div class="video-list">
+{% for video in videos %}
+    <div class="video" onclick="location.href = '{% url 'video_detail' video.pk %}'">     
+        <div class="video__rigth">
+        <img class="video__img" src="{% media video.image %}">
+        <p class="video-title">{{video.name}}</p>
+
+        {% eval video.likes '+' video.dis_likes as count_score %}
+        {% if count_score != 0 %}
+            {% eval video.likes '* 100 //' count_score as result %}
+        {% endif %}
+
+        <p style="color: {% if result >= 50 %}#00CF00;{% else %}red;{% endif %}" class="video__result">
+            {% if count_score != 0 %}{{result}}%{% else %}0{% endif %}</p>
+        <div class="video-score">
+            <img src="{% static 'images/like.png'%}" onclick="like('{% url 'like_video' video.pk %}')">
+            <progress value={% if count_score != 0 %}"{{result}}"{% else %}"0"  class="zero"{% endif %} max="100"></progress>
+            <img src="{% static 'images/disLike.png'%}" onclick="like('{% url 'dislike_video' video.pk %}')">
+        </div>
+        </div>
+        <div class="video__left">
+            <p class="video-title">{{video.name}}</p>
+            <div class="video__genre-list">
+                {% for genre in video.genres.all %}
+                    <a href="{% url 'videos' %}?genres=[{{genre.pk}}]" class="video__a">{{genre.name}}</a> |
+                {% endfor %}
+
+            </div>
+            <p class="video__description">{{video.description}}</p>
+        </div>
+    </div>
+
+                
+{% endfor %}
+</div>
+
+{% pagination %}
+{% else %}
+<h1 class="title" style="text-align: center; font-size: 28px;">Ничего не найдено</h1>
+{% endif %}
+
+{% endblock %}
+    
